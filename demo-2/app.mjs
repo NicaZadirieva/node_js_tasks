@@ -1,4 +1,4 @@
-const { characters, stealRing } = require("./characters.js");
+import { characters, stealRing } from "./characters.mjs";
 let myCharacters = characters;
 
 myCharacters = stealRing(myCharacters, "John Doe");
