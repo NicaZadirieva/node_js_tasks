@@ -1,8 +1,15 @@
-import { characters, stealRing } from "./characters.mjs";
-let myCharacters = characters;
+// import { characters, stealRing } from "./characters.mjs";
 
-myCharacters = stealRing(myCharacters, "John Doe");
+async function main() {
+  // неблокирующий импорт
+  const { characters, stealRing } = await import("./characters.mjs");
+  let myCharacters = characters;
 
-for (const character of myCharacters) {
-  console.log(character);
+  myCharacters = stealRing(myCharacters, "John Doe");
+
+  for (const character of myCharacters) {
+    console.log(character);
+  }
 }
+
+main();
