@@ -1,11 +1,23 @@
 const { Worker } = require("worker_threads");
 const { fork } = require("child_process");
+
+const { performance, PerformanceObserver } = require("perf_hooks");
+
+const performanceObserver = new PerformanceObserver((items) => {
+  items.getEntries().forEach((entry) => {
+    console.log(`${entry.name}: ${entry.duration} ms`);
+  });
+});
+performanceObserver.observe({ entryTypes: ["measure"] });
 const workerFunction = (array) => {
   return new Promise((resolve, reject) => {
+    performance.mark("worker start");
     const worker = new Worker("./worker.js", {
       workerData: { array },
     });
     worker.on("message", (data) => {
+      performance.mark("worker end");
+      performance.measure("worker", "worker start", "worker end");
       console.log(worker.threadId);
       resolve(data);
     });
@@ -21,9 +33,12 @@ const workerFunction = (array) => {
 
 const forkFunction = (array) => {
   return new Promise((resolve, reject) => {
+    performance.mark("start fork");
     const forkProcess = fork("fork.js");
 
     forkProcess.on("message", (message) => {
+      performance.mark("end fork");
+      performance.measure("fork", "start fork", "end fork");
       console.log(`Parent received: ${message}`);
       resolve(message);
     });
@@ -38,24 +53,11 @@ const forkFunction = (array) => {
 
 const main = async () => {
   const array = [1, 2, 3, 4, 5];
-  performance.mark("start");
   const result = await workerFunction(array);
   console.log("Worker result:", result);
-  performance.mark("end");
-  performance.measure("worker", "start", "end");
 
-  performance.mark("start_fork");
   const forkedResult = await forkFunction(array);
-  performance.mark("end_fork");
   console.log("Forked result:", forkedResult);
-  performance.measure("fork", "start_fork", "end_fork");
-
-  console.log("Performance metrics:");
-  console.log(
-    "Worker time:",
-    performance.getEntriesByName("worker")[0].duration
-  );
-  console.log("Fork time:", performance.getEntriesByName("fork")[0].duration);
 };
 
 main();
