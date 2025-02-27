@@ -4,20 +4,28 @@ const { EventEmitter } = require("events");
 const { validate } = require("./validate");
 
 const myEmitter = new EventEmitter();
+
 const METHODS = ["add", "multiply"];
 const [ADD_METHOD, MULTIPLY_METHOD] = METHODS;
 const RESULT_TYPE = "result";
 const ERROR_TYPE = "error";
+
 // event handlers while success
 myEmitter.on(RESULT_TYPE, (result) => {
   console.log(`Result: ${result}`);
 });
-myEmitter.on(ADD_METHOD, (a, b) => {
-  myEmitter.emit(RESULT_TYPE, add(a, b));
-});
 
-myEmitter.on(MULTIPLY_METHOD, (a, b) => {
-  myEmitter.emit(RESULT_TYPE, multiply(a, b));
+myEmitter.on("calc", (method, a, b) => {
+  switch (method) {
+    case ADD_METHOD:
+      console.log(add(a, b));
+      break;
+    case MULTIPLY_METHOD:
+      console.log(multiply(a, b));
+      break;
+    default:
+      throw new Error(`Invalid method: ${method}`);
+  }
 });
 
 // event handlers while error
@@ -32,7 +40,7 @@ function initCli() {
     const b = Number(process.argv[3]);
     const method = process.argv[4];
     validate(a, b, method);
-    myEmitter.emit(method, a, b);
+    myEmitter.emit("calc", method, a, b);
   } catch (e) {
     myEmitter.emit(ERROR_TYPE, e);
   }
