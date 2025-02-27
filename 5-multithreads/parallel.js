@@ -1,5 +1,4 @@
 const { getItemsDeletedBy3 } = require("./utils.js");
+const { parentPort, workerData } = require("worker_threads");
 
-process.on("message", ({ array }) => {
-  process.send(getItemsDeletedBy3(array));
-});
+parentPort.postMessage(getItemsDeletedBy3(workerData));

@@ -1,4 +1,4 @@
-const { createForkProcess } = require("./fork");
+const { createWorkerProcess } = require("./worker");
 const { getItemsDeletedBy3 } = require("./utils");
 const { performance, PerformanceObserver } = require("perf_hooks");
 const os = require("os");
@@ -30,7 +30,7 @@ function parallelExecution(arr) {
   for (let i = 0; i < COUNT_CORE; i++) {
     const start = i * chunkSize;
     const end = Math.min((i + 1) * chunkSize, arr.length);
-    results.push(createForkProcess(arr.slice(start, end)));
+    results.push(createWorkerProcess(arr.slice(start, end)));
   }
   performance.mark("parallel start");
   return Promise.all(results).then((res) => {
