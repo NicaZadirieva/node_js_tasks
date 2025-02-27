@@ -7,5 +7,9 @@ if (!time) {
   console.error("Please provide a time duration.");
   process.exit(1);
 }
-
-utilTimer.createTimer(time, "Time is up!");
+try {
+  utilTimer.createTimer(time, "Time is up!");
+} catch (err) {
+  console.error("Invalid time duration format.");
+  process.exit(1);
+}

@@ -3,5 +3,4 @@
 Чтение аргументов можно сделать разбором строки: 1h 5m 10s
 
 Тесты:
-node app.js 5s 16ms
-node app.js 1h 500s 16ms
+node app.js 1h 5m 3s
