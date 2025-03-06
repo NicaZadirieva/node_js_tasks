@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { getArgs } from "./helpers/args.js";
 import { printHelp } from "./services/log.service.js";
+import { saveKeyValue } from "./services/storage.service.js";
 const initCli = () => {
   console.log("CLI started...");
   const args = getArgs(process.argv);
@@ -16,6 +17,7 @@ const initCli = () => {
 
   if (args.t) {
     // Сохранить токен
+    saveKeyValue("token", args.t);
   }
 };
 
