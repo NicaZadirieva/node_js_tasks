@@ -1,4 +1,5 @@
 const notifier = require("node-notifier");
+const path = require("path");
 
 /**
  * Парсит время на часы, минуты и секунды
@@ -23,7 +24,10 @@ function createTimer(time, message) {
     console.log(message);
     notifier.notify({
       title: "Таймер сработал",
+      icon: path.join(__dirname, "kapibara.webp"),
       message,
+      appID: "TimerUp",
+      time: 5000,
     });
   }, remainingMSeconds);
 }
