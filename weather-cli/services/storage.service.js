@@ -18,7 +18,7 @@ const saveToken = async (token) => {
 };
 
 const getToken = async () => {
-  const token = await getKeyValue("token");
+  const token = process.env.TOKEN ?? (await getKeyValue("token"));
   if (!token) {
     return null;
   }
