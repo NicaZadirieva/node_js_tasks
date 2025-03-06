@@ -1,3 +1,5 @@
+const notifier = require("node-notifier");
+
 /**
  * Парсит время на часы, минуты и секунды
  * @param {string} time время из консоли вида '1h 5m 3s'
@@ -19,6 +21,10 @@ function createTimer(time, message) {
   let remainingMSeconds = totalSeconds * 1000;
   setTimeout(() => {
     console.log(message);
+    notifier.notify({
+      title: "Таймер сработал",
+      message,
+    });
   }, remainingMSeconds);
 }
 
