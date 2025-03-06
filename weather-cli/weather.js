@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 import { getArgs } from "./helpers/args.js";
+import { getWeather } from "./services/api.service.js";
 import { printHelp } from "./services/log.service.js";
 import { saveToken } from "./services/storage.service.js";
-const initCli = () => {
+const initCli = async () => {
   console.log("CLI started...");
   const args = getArgs(process.argv);
 
@@ -19,6 +20,8 @@ const initCli = () => {
     // Сохранить токен
     saveToken(args.t);
   }
+
+  await getWeather("Москва");
 };
 
 initCli();

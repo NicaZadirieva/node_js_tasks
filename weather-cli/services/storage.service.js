@@ -17,6 +17,14 @@ const saveToken = async (token) => {
   }
 };
 
+const getToken = async () => {
+  const token = await getKeyValue("token");
+  if (!token) {
+    return null;
+  }
+  return token;
+};
+
 const saveKeyValue = async (key, value) => {
   let data = {};
   if (await isExist(filePath)) {
@@ -47,4 +55,4 @@ const isExist = async (path) => {
   }
 };
 
-export { saveKeyValue, saveToken };
+export { getToken, saveKeyValue, saveToken };
