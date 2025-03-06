@@ -5,6 +5,10 @@ import { printError, printSuccess } from "./log.service.js";
 const filePath = join(homedir(), "weather_data.json");
 
 const saveToken = async (token) => {
+  if (!token.length) {
+    printError("Не передан токен");
+    return;
+  }
   try {
     await saveKeyValue("token", token);
     printSuccess(`Токен сохранен в ${filePath}`);
