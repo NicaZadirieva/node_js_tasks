@@ -1,0 +1,16 @@
+{
+  "name": "7-timer-notifications",
+  "version": "1.0.0",
+  "description": "Полнофункциональный таймер, способный отправлять персонализированные уведомления при окончании обратного отсчета.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "keywords": [
+    "timer",
+    "notify"
+  ],
+  "author": "Nica Zadirieva",
+  "license": "ISC"
+}
