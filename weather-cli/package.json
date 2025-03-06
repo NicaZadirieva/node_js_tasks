@@ -23,5 +23,9 @@
   },
   "bugs": {
     "email": "no.demchenko@yandex.ru"
+  },
+  "dependencies": {
+    "chalk": "^5.4.1",
+    "dedent-js": "^1.0.1"
   }
 }
