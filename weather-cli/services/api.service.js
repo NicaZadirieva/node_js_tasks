@@ -1,4 +1,5 @@
 import axios from "axios";
+import { printError, printSuccess } from "./log.service.js";
 import { getToken } from "./storage.service.js";
 const getWeather = async (city) => {
   // Формируем строку `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${OPEN_WEATHER_MAP_API_KEY}&units=metric`;
@@ -47,4 +48,21 @@ const getWeather = async (city) => {
   return data;
 };
 
-export { getWeather };
+const getForecast = async () => {
+  try {
+    const weather = await getWeather("Москва");
+    printSuccess(
+      `Погода в ${weather.name}: ${weather.main.temp}°C, ${weather.weather[0].description}`
+    );
+  } catch (err) {
+    if (err?.response?.status == 404) {
+      printError("Город не найден");
+    } else if (err?.response?.status == 401) {
+      printError("Не авторизован. Установите токен с помощью -t [API_KEY]");
+    } else {
+      printError(err.message);
+    }
+  }
+};
+
+export { getForecast, getWeather };

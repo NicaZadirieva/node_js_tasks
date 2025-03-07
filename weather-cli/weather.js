@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { getArgs } from "./helpers/args.js";
-import { getWeather } from "./services/api.service.js";
+import { getForecast } from "./services/api.service.js";
 import { printHelp } from "./services/log.service.js";
 import { saveToken } from "./services/storage.service.js";
 const initCli = async () => {
@@ -21,7 +21,7 @@ const initCli = async () => {
     saveToken(args.t);
   }
 
-  await getWeather("Москва");
+  await getForecast();
 };
 
 initCli();
