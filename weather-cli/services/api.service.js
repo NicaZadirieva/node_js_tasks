@@ -1,38 +1,27 @@
 import axios from "axios";
-import { printError, printSuccess } from "./log.service.js";
-import { getToken } from "./storage.service.js";
+import { printError, printWeather } from "./log.service.js";
+import { getCity, getToken } from "./storage.service.js";
+
+const getIcon = (icon) => {
+  const iconMap = {
+    "01": "☀️",
+    "02": "⛅",
+    "03": "☁️",
+    "04": "☁️",
+    "09": "🌧️",
+    10: "⛅",
+    11: "☁️",
+    13: "🌨️",
+    50: "🥵",
+  };
+  return iconMap[icon.slice(0, -1)];
+};
 const getWeather = async (city) => {
   // Формируем строку `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${OPEN_WEATHER_MAP_API_KEY}&units=metric`;
   const OPEN_WEATHER_MAP_API_KEY = await getToken();
   if (!OPEN_WEATHER_MAP_API_KEY) {
     throw new Error("Token not available. Set it with command : -t [API_KEY]");
   }
-  //   const url = new URL("https://api.openweathermap.org/data/2.5/weather");
-  //   url.searchParams.append("q", city);
-  //   url.searchParams.append("appid", OPEN_WEATHER_MAP_API_KEY);
-  //   url.searchParams.append("units", "metric");
-  //   url.searchParams.append("lang", "ru");
-
-  //   return await https.get(url, (response) => {
-  //     let res = "";
-  //     response.on("data", (chunk) => {
-  //       res += chunk;
-  //     });
-
-  //     response.on("end", () => {
-  //       try {
-  //         const weatherData = JSON.parse(res);
-  //         printSuccess(
-  //           `Погода в ${city}: ${weatherData.main.temp}°C, ${weatherData.weather[0].description}`
-  //         );
-  //       } catch (error) {
-  //         printError(error.message);
-  //       }
-  //     });
-  //     response.on("error", (error) => {
-  //       printError(error.message);
-  //     });
-  //   });
   const { data } = await axios.get(
     `https://api.openweathermap.org/data/2.5/weather`,
     {
@@ -50,10 +39,12 @@ const getWeather = async (city) => {
 
 const getForecast = async () => {
   try {
-    const weather = await getWeather("Москва");
-    printSuccess(
-      `Погода в ${weather.name}: ${weather.main.temp}°C, ${weather.weather[0].description}`
-    );
+    const city = await getCity();
+    if (!city) {
+      throw new Error("City not available. Set it with command : -s [city]");
+    }
+    const weather = await getWeather(city);
+    printWeather(weather, getIcon(weather.weather[0].icon));
   } catch (err) {
     if (err?.response?.status == 404) {
       printError("Город не найден");
@@ -65,4 +56,4 @@ const getForecast = async () => {
   }
 };
 
-export { getForecast, getWeather };
+export { getForecast, getIcon, getWeather };

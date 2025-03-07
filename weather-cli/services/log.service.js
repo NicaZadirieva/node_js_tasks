@@ -19,4 +19,12 @@ const printHelp = () => {
   );
 };
 
-export { printError, printHelp, printSuccess };
+const printWeather = (weather, icon) => {
+  console.log(
+    dedent`${chalk.bgMagenta("WEATHER")} ${icon}  Погода в ${weather.name}: ${
+      weather.main.temp
+    }°C, ${weather.weather[0].description}`
+  );
+};
+
+export { printError, printHelp, printSuccess, printWeather };

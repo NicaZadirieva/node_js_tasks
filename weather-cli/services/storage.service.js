@@ -25,6 +25,27 @@ const getToken = async () => {
   return token;
 };
 
+const saveCity = async (city) => {
+  if (!city.length) {
+    printError("Не передан город");
+    return;
+  }
+  try {
+    await saveKeyValue("city", city);
+    printSuccess(`Город сохранен в ${filePath}`);
+  } catch (e) {
+    printError(error.message);
+  }
+};
+
+const getCity = async () => {
+  const city = process.env.CITY ?? (await getKeyValue("city"));
+  if (!city) {
+    return null;
+  }
+  return city;
+};
+
 const saveKeyValue = async (key, value) => {
   let data = {};
   if (await isExist(filePath)) {
@@ -55,4 +76,4 @@ const isExist = async (path) => {
   }
 };
 
-export { getToken, saveKeyValue, saveToken };
+export { getCity, getToken, saveCity, saveKeyValue, saveToken };
