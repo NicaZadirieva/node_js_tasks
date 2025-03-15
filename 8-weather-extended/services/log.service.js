@@ -8,14 +8,39 @@ const printSuccess = (message) => {
   console.log(chalk.bgGreen("SUCCESS") + " " + message);
 };
 
-const printHelp = () => {
+const printHelp = (lang) => {
+  switch (lang) {
+    case "ru":
+      printRuHelp();
+      break;
+    case "eng":
+      printEngHelp();
+      break;
+    default:
+      printRuHelp();
+  }
+};
+const printRuHelp = () => {
   console.log(
     dedent`${chalk.bgCyan("HELP")}
       Без параметров - вывод погоды
       Параметры:
       -s [city] - установка города
       -h -  help
-      -t [API_KEY] -сохранить токен`
+      -t [API_KEY] -сохранить токен
+      -lang [language] - установить язык`
+  );
+};
+
+const printEngHelp = () => {
+  console.log(
+    dedent`${chalk.bgCyan("HELP")}
+      No paramenets - show the weather information
+      Parameters can be:
+      -s [city] - save the city
+      -h -  help
+      -t [API_KEY] - save the token for API requests
+      -lang [language] - save the language`
   );
 };
 
