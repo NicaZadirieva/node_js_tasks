@@ -21,7 +21,7 @@ const printHelp = () => {
 
 const printWeather = (weather, icon) => {
   console.log(
-    dedent`${chalk.bgMagenta("WEATHER")} ${icon}  Погода в ${weather.name}: ${
+    dedent`${chalk.bgMagenta("WEATHER")} ${icon}  ${weather.name}: ${
       weather.main.temp
     }°C, ${weather.weather[0].description}`
   );
