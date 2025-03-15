@@ -38,12 +38,12 @@ const saveCity = async (city) => {
   }
 };
 
-const getCity = async () => {
-  const city = process.env.CITY ?? (await getKeyValue("city"));
-  if (!city) {
+const getCities = async () => {
+  const cities = process.env.CITY ?? (await getKeyValue("city"));
+  if (!cities) {
     return null;
   }
-  return city;
+  return cities.split(",").map((city) => city.trim());
 };
 
 const saveKeyValue = async (key, value) => {
@@ -76,4 +76,4 @@ const isExist = async (path) => {
   }
 };
 
-export { getCity, getToken, saveCity, saveKeyValue, saveToken };
+export { getCities, getToken, saveCity, saveKeyValue, saveToken };

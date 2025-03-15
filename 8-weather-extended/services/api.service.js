@@ -1,7 +1,6 @@
 import axios from "axios";
 import { printError, printWeather } from "./log.service.js";
-import { getCity, getToken } from "./storage.service.js";
-
+import { getCities, getToken } from "./storage.service.js";
 const getIcon = (icon) => {
   const iconMap = {
     "01": "☀️",
@@ -39,12 +38,14 @@ const getWeather = async (city) => {
 
 const getForecast = async () => {
   try {
-    const city = await getCity();
-    if (!city) {
+    const cities = await getCities();
+    if (!cities) {
       throw new Error("City not available. Set it with command : -s [city]");
     }
-    const weather = await getWeather(city);
-    printWeather(weather, getIcon(weather.weather[0].icon));
+    for (const city of cities) {
+      const weather = await getWeather(city);
+      printWeather(weather, getIcon(weather.weather[0].icon));
+    }
   } catch (err) {
     if (err?.response?.status == 404) {
       printError("Город не найден");
