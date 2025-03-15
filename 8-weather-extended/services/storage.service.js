@@ -55,6 +55,26 @@ const saveKeyValue = async (key, value) => {
   data[key] = value;
   await promises.writeFile(filePath, JSON.stringify(data));
 };
+const getLanguage = async (key, value) => {
+  const lang = process.env.TOKEN ?? (await getKeyValue("lang"));
+  if (!lang) {
+    return null;
+  }
+  return lang;
+};
+
+const saveLanguage = async (value) => {
+  if (!value.length) {
+    printError("Не передан язык");
+    return;
+  }
+  try {
+    await saveKeyValue("lang", value);
+    printSuccess(`Язык сохранен в ${filePath}`);
+  } catch (e) {
+    printError(error.message);
+  }
+};
 
 const getKeyValue = async (key) => {
   if (!(await isExist(filePath))) {
@@ -76,4 +96,12 @@ const isExist = async (path) => {
   }
 };
 
-export { getCities, getToken, saveCity, saveKeyValue, saveToken };
+export {
+  getCities,
+  getLanguage,
+  getToken,
+  saveCity,
+  saveKeyValue,
+  saveLanguage,
+  saveToken,
+};

@@ -2,7 +2,11 @@
 import { getArgs } from "./helpers/args.js";
 import { getForecast } from "./services/api.service.js";
 import { printHelp } from "./services/log.service.js";
-import { saveCity, saveToken } from "./services/storage.service.js";
+import {
+  saveCity,
+  saveLanguage,
+  saveToken,
+} from "./services/storage.service.js";
 const initCli = async () => {
   console.log("CLI started...");
   const args = getArgs(process.argv);
@@ -20,6 +24,11 @@ const initCli = async () => {
   if (args.t) {
     // Сохранить токен
     await saveToken(args.t);
+  }
+
+  if (args.lang) {
+    // Установить язык
+    await saveLanguage(args.lang);
   }
 
   await getForecast();

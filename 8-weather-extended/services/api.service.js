@@ -1,6 +1,8 @@
 import axios from "axios";
 import { printError, printWeather } from "./log.service.js";
-import { getCities, getToken } from "./storage.service.js";
+import { getCities, getLanguage, getToken } from "./storage.service.js";
+
+const DEFAULT_LANGUAGE = "ru";
 const getIcon = (icon) => {
   const iconMap = {
     "01": "☀️",
@@ -18,6 +20,7 @@ const getIcon = (icon) => {
 const getWeather = async (city) => {
   // Формируем строку `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${OPEN_WEATHER_MAP_API_KEY}&units=metric`;
   const OPEN_WEATHER_MAP_API_KEY = await getToken();
+  const LANGUAGE = (await getLanguage()) || DEFAULT_LANGUAGE;
   if (!OPEN_WEATHER_MAP_API_KEY) {
     throw new Error("Token not available. Set it with command : -t [API_KEY]");
   }
@@ -27,7 +30,7 @@ const getWeather = async (city) => {
       params: {
         q: city,
         appid: OPEN_WEATHER_MAP_API_KEY,
-        lang: "ru",
+        lang: LANGUAGE,
         units: "metric",
       },
     }
