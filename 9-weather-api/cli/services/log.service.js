@@ -44,13 +44,17 @@ const printEngHelp = () => {
   );
 };
 
-const printWeather = (weather, icon) => {
-  const weatherInfo = dedent`${chalk.bgMagenta("WEATHER")} ${icon}  ${
-    weather.name
-  }: ${weather.main.temp}°C, ${weather.weather[0].description}`;
-
-  console.log(weatherInfo);
+const getWeatherApiInfo = (weather, icon) => {
+  const weatherInfo = dedent`${icon}  ${weather.name}: ${weather.main.temp}°C, ${weather.weather[0].description}`;
   return weatherInfo;
 };
 
-export { printError, printHelp, printSuccess, printWeather };
+const printWeather = (weather, icon) => {
+  console.log(
+    dedent`${chalk.bgMagenta("WEATHER")} ${icon}  ${weather.name}: ${
+      weather.main.temp
+    }°C, ${weather.weather[0].description}`
+  );
+};
+
+export { getWeatherApiInfo, printError, printHelp, printSuccess, printWeather };

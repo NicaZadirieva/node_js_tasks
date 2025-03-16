@@ -1,5 +1,5 @@
 import express from "express";
-import { getForecast } from "../cli/services/api.service.js";
+import { getForecast } from "../api/api.service.js";
 import { saveCity, saveToken } from "../cli/services/storage.service.js";
 const app = express();
 const port = 3000;
@@ -22,9 +22,11 @@ app.get("/weather", async (req, res) => {
   const token = req.query.token;
   const lang = req.query.lang;
   const weatherInfo = await getForecast({
-    citiesFromQuery: cities,
-    tokenFromQuery: token,
-    langFromQuery: lang,
+    fromQuery: {
+      cities,
+      token,
+      lang,
+    },
   });
   res.send(weatherInfo);
 });
