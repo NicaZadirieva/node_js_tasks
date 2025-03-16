@@ -1,19 +1,11 @@
 import express from "express";
+import router from "./test.js";
 
 const port = 8000;
 const host = "localhost";
 const app = express();
 
-app.all("/hello", (req, res, next) => {
-  console.log("Hello, world!");
-  next();
-});
-
-app.get("/hel?lo", (req, res) => {
-  res.status(200);
-  res.header("Content-Type", "text/plain");
-  res.send("Hello, Express!");
-});
+app.use("/user", router);
 app.listen(port, () => {
   console.log(`Server running at http://${host}:${port}/`);
 });
