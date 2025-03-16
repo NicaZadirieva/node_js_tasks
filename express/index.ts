@@ -1,10 +1,10 @@
-import express from "express";
+import express, { NextFunction, Request, Response } from "express";
 import { router as userRouter } from "./users/users.js";
 const port = 8000;
 const host = "localhost";
 const app = express();
 
-app.use((req, res, next) => {
+app.use((req: Request, res: Response, next: NextFunction) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header(
     "Access-Control-Allow-Headers",
@@ -15,7 +15,7 @@ app.use((req, res, next) => {
 
 app.use("/users", userRouter);
 
-app.use((err, req, res, next) => {
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   res.status(500).send("Server Error");
 });
 app.listen(port, () => {
