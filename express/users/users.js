@@ -3,7 +3,7 @@ import express from "express";
 const router = express.Router();
 
 router.post("/login", (req, res) => {
-  res.send("login");
+  throw new Error("Not implemented");
 });
 
 router.post("/register", (req, res) => {
