@@ -44,11 +44,6 @@ const printEngHelp = () => {
   );
 };
 
-const getWeatherApiInfo = (weather, icon) => {
-  const weatherInfo = dedent`${icon}  ${weather.name}: ${weather.main.temp}°C, ${weather.weather[0].description}`;
-  return weatherInfo;
-};
-
 const printWeather = (weather, icon) => {
   console.log(
     dedent`${chalk.bgMagenta("WEATHER")} ${icon}  ${weather.name}: ${
@@ -57,4 +52,4 @@ const printWeather = (weather, icon) => {
   );
 };
 
-export { getWeatherApiInfo, printError, printHelp, printSuccess, printWeather };
+export { printError, printHelp, printSuccess, printWeather };

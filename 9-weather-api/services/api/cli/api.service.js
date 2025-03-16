@@ -1,6 +1,12 @@
 import axios from "axios";
-import { printError, printWeather } from "./log.service.js";
-import { getCities, getLanguage, getToken } from "./storage.service.js";
+import { printError, printWeather } from "../../log/cli/log.service.js";
+import {
+  getCities,
+  getLanguage,
+  getToken,
+} from "../../storage/storage.service.js";
+import { WEATHER_URL } from "../shared/constants.js";
+import { HttpUtils } from "../shared/httpUtils.js";
 
 const DEFAULT_LANGUAGE = "ru";
 const getIcon = (icon) => {
@@ -18,22 +24,18 @@ const getIcon = (icon) => {
   return iconMap[icon.slice(0, -1)];
 };
 const getWeather = async (city) => {
-  // Формируем строку `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${OPEN_WEATHER_MAP_API_KEY}&units=metric`;
   const OPEN_WEATHER_MAP_API_KEY = await getToken();
   const LANGUAGE = (await getLanguage()) || DEFAULT_LANGUAGE;
   if (!OPEN_WEATHER_MAP_API_KEY) {
     throw new Error("Token not available. Set it with command : -t [API_KEY]");
   }
   const { data } = await axios.get(
-    `https://api.openweathermap.org/data/2.5/weather`,
-    {
-      params: {
-        q: city,
-        appid: OPEN_WEATHER_MAP_API_KEY,
-        lang: LANGUAGE,
-        units: "metric",
-      },
-    }
+    WEATHER_URL,
+    HttpUtils.formHttpParams({
+      city,
+      token: OPEN_WEATHER_MAP_API_KEY,
+      lang: LANGUAGE,
+    })
   );
 
   return data;

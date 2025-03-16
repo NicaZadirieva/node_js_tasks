@@ -8,7 +8,7 @@
   },
   "type": "module",
   "scripts": {
-    "start": "node ./api/server.js",
+    "start": "node app/rest/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [

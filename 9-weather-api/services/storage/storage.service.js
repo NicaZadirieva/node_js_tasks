@@ -1,7 +1,7 @@
 import { promises } from "fs";
 import { homedir } from "os";
 import { join } from "path";
-import { printError, printSuccess } from "./log.service.js";
+import { printError, printSuccess } from "../log/cli/log.service.js";
 const filePath = join(homedir(), "weather_data.json");
 
 const saveToken = async (token) => {

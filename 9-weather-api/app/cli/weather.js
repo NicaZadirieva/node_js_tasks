@@ -1,13 +1,13 @@
 #!/usr/bin/env node
-import { getArgs } from "./helpers/args.js";
-import { getForecast } from "./services/api.service.js";
-import { printHelp } from "./services/log.service.js";
+import { getForecast } from "../services/api";
+import { printHelp } from "../services/log";
 import {
   getLanguage,
   saveCity,
   saveLanguage,
   saveToken,
-} from "./services/storage.service.js";
+} from "../services/storage";
+import { getArgs } from "./helpers/args.js";
 
 const initCli = async () => {
   console.log("CLI started...");
