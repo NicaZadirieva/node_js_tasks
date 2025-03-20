@@ -5,23 +5,9 @@ import {
   getLanguage,
   getToken,
 } from "../../storage/storage.service.js";
-import { WEATHER_URL } from "../shared/constants.js";
+import { DEFAULT_LANGUAGE, WEATHER_URL, getIcon } from "../shared/helpers.js";
 import { HttpUtils } from "../shared/httpUtils.js";
-const DEFAULT_LANGUAGE = "ru";
-const getIcon = (icon) => {
-  const iconMap = {
-    "01": "☀️",
-    "02": "⛅",
-    "03": "☁️",
-    "04": "☁️",
-    "09": "🌧️",
-    10: "⛅",
-    11: "☁️",
-    13: "🌨️",
-    50: "🥵",
-  };
-  return iconMap[icon.slice(0, -1)];
-};
+
 const getWeather = async ({ city, fromQuery: { token, lang } }) => {
   const OPEN_WEATHER_MAP_API_KEY = token || (await getToken());
   const LANGUAGE = lang || (await getLanguage()) || DEFAULT_LANGUAGE;

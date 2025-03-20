@@ -5,10 +5,9 @@ import {
   getLanguage,
   getToken,
 } from "../../storage/storage.service.js";
-import { WEATHER_URL } from "../shared/constants.js";
+import { DEFAULT_LANGUAGE, WEATHER_URL, getIcon } from "../shared/helpers.js";
 import { HttpUtils } from "../shared/httpUtils.js";
 
-const DEFAULT_LANGUAGE = "ru";
 const getIcon = (icon) => {
   const iconMap = {
     "01": "☀️",
