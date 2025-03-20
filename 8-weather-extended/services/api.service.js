@@ -45,8 +45,12 @@ const getForecast = async () => {
     if (!cities) {
       throw new Error("City not available. Set it with command : -s [city]");
     }
+    const weatherPromises = [];
     for (const city of cities) {
-      const weather = await getWeather(city);
+      weatherPromises.push(getWeather(city));
+    }
+    const weatherData = await Promise.all(weatherPromises);
+    for (const weather of weatherData) {
       printWeather(weather, getIcon(weather.weather[0].icon));
     }
   } catch (err) {

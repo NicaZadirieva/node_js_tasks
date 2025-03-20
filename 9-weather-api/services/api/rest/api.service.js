@@ -34,14 +34,16 @@ const getForecast = async ({
     if (!cities) {
       throw new Error("City not available. Set it");
     }
-    const weatherInfoAllCities = [];
+    const weatherPromises = [];
     for (const city of cities) {
-      const weather = await getWeather({ city, fromQuery: { token, lang } });
-      weatherInfoAllCities.push(
-        getWeatherApiInfo(weather, getIcon(weather.weather[0].icon))
-      );
+      weatherPromises.push(getWeather({ city, fromQuery: { token, lang } }));
     }
-    return weatherInfoAllCities.join("\n");
+    const weatherData = await Promise.all(weatherPromises);
+    return weatherData
+      .map((weather) =>
+        getWeatherApiInfo(weather, getIcon(weather.weather[0].icon))
+      )
+      .join("\n");
   } catch (err) {
     if (err?.response?.status == 404) {
       throw new Error("Город не найден");
