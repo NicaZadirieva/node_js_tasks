@@ -1,7 +1,9 @@
 import { App } from './app';
+import { LoggerService } from './logger/logger.service';
 
 async function bootstrap() {
-    const app = new App();
+    // App зависит от LoggerService - это простейший DI
+    const app = new App(new LoggerService());
     await app.init();
 }
 

@@ -7,9 +7,10 @@ export class App {
     server?: Server;
     logger?: LoggerService;
 
-    constructor() {
+    constructor(logger: LoggerService) {
         this.app = express();
         this.port = 8000;
+        this.logger = logger;
     }
 
     useRoutes() {
@@ -20,8 +21,6 @@ export class App {
     public async init() {
         this.useRoutes();
         this.server = await this.app.listen(this.port);
-        this.logger = new LoggerService();
-        //TODO: логгер
-        this.logger.log(`Server is running on port ${this.port}`);
+        this.logger?.log(`Server is running on port ${this.port}`);
     } 
 }
