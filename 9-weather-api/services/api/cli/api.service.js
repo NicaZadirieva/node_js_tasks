@@ -8,20 +8,6 @@ import {
 import { DEFAULT_LANGUAGE, WEATHER_URL, getIcon } from "../shared/helpers.js";
 import { HttpUtils } from "../shared/httpUtils.js";
 
-const getIcon = (icon) => {
-  const iconMap = {
-    "01": "☀️",
-    "02": "⛅",
-    "03": "☁️",
-    "04": "☁️",
-    "09": "🌧️",
-    10: "⛅",
-    11: "☁️",
-    13: "🌨️",
-    50: "🥵",
-  };
-  return iconMap[icon.slice(0, -1)];
-};
 const getWeather = async (city) => {
   const OPEN_WEATHER_MAP_API_KEY = await getToken();
   const LANGUAGE = (await getLanguage()) || DEFAULT_LANGUAGE;
