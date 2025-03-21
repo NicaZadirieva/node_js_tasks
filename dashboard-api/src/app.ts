@@ -9,19 +9,19 @@ export class App {
     logger?: LoggerService;
     userController?: UserController;
 
-    constructor(logger: LoggerService) {
+    constructor(logger: LoggerService,
+        userController: UserController
+    ) {
         this.app = express();
         this.port = 8000;
         this.logger = logger;
+        this.userController = userController;
     }
 
     useRoutes() {
-        //this.app.use(express.json());
-        //this.app.use('/api/v1/users', require('./routes/users.route'));
-        if (this.logger) {
-            this.userController = new UserController(this.logger);
+        if (this.userController) {
+            this.app.use('/users', this.userController.router);
         }
-
     }
 
     public async init() {

@@ -1,9 +1,11 @@
 import { App } from './app';
 import { LoggerService } from './logger/logger.service';
+import { UserController } from './users/users.controller';
 
 async function bootstrap() {
-    // App зависит от LoggerService - это простейший DI
-    const app = new App(new LoggerService());
+    const logger = new LoggerService();
+    // TODO: убрать дерево зависимостей
+    const app = new App(logger, new UserController(logger));
     await app.init();
 }
 

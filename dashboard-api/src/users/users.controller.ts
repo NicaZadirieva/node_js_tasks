@@ -1,33 +1,21 @@
 import { NextFunction, Request, Response } from 'express';
 import { BaseController } from '../common/base.controller';
-import { IControllerRoute } from '../common/route.interface';
 import { LoggerService } from '../logger/logger.service';
 
 export class UserController extends BaseController {
     constructor(logger: LoggerService) {
         super(logger);
-        this.bindRoutes();
+        this.bindRoutes([
+            { path: '/register', method: 'post', func: this.register },
+            { path: '/login', method: 'post', func: this.login },
+        ]);
     }
 
-    protected bindRoutes(): void {
-        const routes: IControllerRoute[] = [];
-        routes.push({
-            path: '/login',
-            func: function (req: Request, res: Response, next: NextFunction): void {
-                res.send('login');
-            },
-            method: 'get'
-        });
-
-        routes.push({
-            path: '/register',
-            func: function (req: Request, res: Response, next: NextFunction): void {
-                res.send('register');
-            },
-            method: 'get'
-        });
-        super.bindRoutes(routes);
+    login(req: Request, res: Response, next: NextFunction) {
+        this.ok(res, 'login');
     }
 
-
+    register(req: Request, res: Response, next: NextFunction) {
+        this.ok(res, 'register');
+    }
 }
