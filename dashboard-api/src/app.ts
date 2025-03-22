@@ -1,17 +1,17 @@
 import express, { Express } from 'express';
 import { Server } from 'http';
 import { ExceptionFilter } from './errors/exeption.filter';
-import { LoggerService } from './logger/logger.service';
+import { ILogger } from './logger/logger.interface';
 import { UserController } from './users/users.controller';
 export class App {
     app: Express;
     port: number;
     server?: Server;
-    logger?: LoggerService;
+    logger?: ILogger;
     userController?: UserController;
     exceptionFilter: ExceptionFilter;
 
-    constructor(logger: LoggerService,
+    constructor(logger: ILogger,
         userController: UserController,
         exceptionFilter: ExceptionFilter
     ) {
@@ -38,4 +38,5 @@ export class App {
         this.server = await this.app.listen(this.port);
         this.logger?.log(`Server is running on port ${this.port}`);
     } 
+    
 }

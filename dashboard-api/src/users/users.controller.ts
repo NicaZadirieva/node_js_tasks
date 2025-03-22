@@ -1,10 +1,10 @@
 import { NextFunction, Request, Response } from 'express';
 import { BaseController } from '../common/base.controller';
 import { HTTPError } from '../errors/http-error.class';
-import { LoggerService } from '../logger/logger.service';
+import { ILogger } from '../logger/logger.interface';
 
 export class UserController extends BaseController {
-    constructor(logger: LoggerService) {
+    constructor(logger: ILogger) {
         super(logger);
         this.bindRoutes([
             { path: '/register', method: 'post', func: this.register },
