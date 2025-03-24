@@ -1,8 +1,11 @@
 import express, { Express } from 'express';
 import { Server } from 'http';
+import { injectable } from 'inversify';
 import { ExceptionFilter } from './errors/exeption.filter';
 import { ILogger } from './logger/logger.interface';
 import { UserController } from './users/users.controller';
+
+@injectable()
 export class App {
     app: Express;
     port: number;

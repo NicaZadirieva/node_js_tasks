@@ -1,19 +1,30 @@
-import { App } from './app';
-import { ExceptionFilter } from './errors/exeption.filter';
-import { ILogger } from './logger/logger.interface';
-import { LoggerService } from './logger/logger.service';
-import { UserController } from './users/users.controller';
+import { Container } from "inversify";
+import { App } from "./app";
+import { IExceptionFilter } from "./errors/exception.filter.interface";
+import { ExceptionFilter } from "./errors/exeption.filter";
+import { ILogger } from "./logger/logger.interface";
+import { LoggerService } from "./logger/logger.service";
+import { TYPES } from "./types";
+import { UserController } from "./users/users.controller";
 
-async function bootstrap() {
-    const logger: ILogger = new LoggerService();
-    // TODO: убрать дерево зависимостей
-    const app = new App(
-        logger, 
-        new UserController(logger), 
-        new ExceptionFilter(logger)
-    );
-    
-    await app.init();
-}
+//async function bootstrap() {
+// const logger: ILogger = new LoggerService();
+// const app = new App(
+//     logger,
+//     new UserController(logger),
+//     new ExceptionFilter(logger)
+// );
+const appContainer = new Container();
 
-bootstrap();
+appContainer.bind<ILogger>(TYPES.ILogger).to(LoggerService);
+appContainer.bind<IExceptionFilter>(TYPES.ExceptionFilter).to(ExceptionFilter);
+appContainer.bind<UserController>(TYPES.UserController).to(UserController);
+appContainer.bind<App>(TYPES.Application).to(App);
+
+const app = appContainer.get<App>(TYPES.Application);
+app.init();
+//}
+
+//bootstrap();
+export { app, appContainer };
+
