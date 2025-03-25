@@ -23,13 +23,13 @@ const appModule: ContainerModule = new ContainerModule(
     appContainer.bind<App>(TYPES.Application).to(App);
   },
 );
-const container = new Container();
-container.load(appModule);
 
-const app = container.get<App>(TYPES.Application);
-app.init();
-//}
+function bootstrap() {
+    const container = new Container();
+    container.load(appModule);
+    const app = container.get<App>(TYPES.Application);
+    app.init();
+    return { container, app };
+}
 
-//bootstrap();
-export { app, container };
-
+export const { container, app } = bootstrap();
