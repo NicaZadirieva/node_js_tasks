@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { inject, injectable } from 'inversify';
+import 'reflect-metadata';
 import { BaseController } from '../common/base.controller';
 import { HTTPError } from '../errors/http-error.class';
 import { ILogger } from '../logger/logger.interface';
