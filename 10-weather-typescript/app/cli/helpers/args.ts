@@ -1,4 +1,4 @@
-export type Argv = {
+type Argv = {
   s?: string;
   t?: string;
   lang?: 'ru' | 'eng',
@@ -28,5 +28,5 @@ const getArgs = (args: NodeJS.Process["argv"]) => {
   return res;
 };
 
-export { getArgs };
+export { Argv, getArgs };
 

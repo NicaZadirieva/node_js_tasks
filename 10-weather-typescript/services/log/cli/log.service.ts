@@ -48,7 +48,7 @@ type WeatherDescription = {
   description: string
 }
 
-export type Weather = {
+type Weather = {
   name: string, 
   main: { temp: string }, 
   weather: WeatherDescription[]
@@ -61,5 +61,5 @@ const printWeather = (weather: Weather, icon: string) => {
   );
 };
 
-export { printError, printHelp, printSuccess, printWeather };
+export { printError, printHelp, printSuccess, printWeather, Weather };
 
