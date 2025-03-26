@@ -29,5 +29,9 @@
     "chalk": "^5.4.1",
     "dedent-js": "^1.0.1",
     "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.1",
+    "@types/node": "^22.13.13"
   }
 }
