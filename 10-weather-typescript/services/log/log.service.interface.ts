@@ -4,4 +4,5 @@ export interface ILoggerService {
     logError(errorMessage: string): void;
     logSuccess(message: string): void;
     logHelp(lang: 'ru' | 'eng'): void;
+    logForecast(forecast: Forecast): void;
 }

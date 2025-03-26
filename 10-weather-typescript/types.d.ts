@@ -1,5 +1,6 @@
 type WeatherDescription = {
   description: string;
+  icon: string;
 };
 
 type Weather = {
@@ -7,3 +8,7 @@ type Weather = {
   main: { temp: string };
   weather: WeatherDescription[];
 };
+
+type Forecast = string;
+
+type Lang = 'ru' | 'eng';

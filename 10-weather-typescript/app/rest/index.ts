@@ -1,5 +1,5 @@
 import express from "express";
-import { restGetForecast } from '../../services/api';
+import { RestWeatherApiService } from '../../services/api/rest.weather.api.service';
 import { saveCity, saveToken } from '../../services/storage';
 
 
@@ -24,13 +24,8 @@ function main() {
     const cities = req.query.cities as string[];
     const token = req.query.token as string;
     const lang = req.query.lang as 'ru' | 'eng';
-    const weatherInfo = await restGetForecast({
-      fromQuery: {
-        cities,
-        token,
-        lang,
-      },
-    });
+    const weatherApiService = new RestWeatherApiService(token, lang, cities);
+    const weatherInfo = await weatherApiService.getForecast();
     res.send(weatherInfo);
   });
 

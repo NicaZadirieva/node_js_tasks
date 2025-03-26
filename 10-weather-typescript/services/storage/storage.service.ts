@@ -61,7 +61,7 @@ const saveKeyValue = async (key: string, value: string) => {
   await promises.writeFile(filePath, JSON.stringify(data));
 };
 const getLanguage = async () => {
-  const lang = process.env.TOKEN ?? (await getKeyValue("lang"));
+  const lang = await getKeyValue("lang");
   if (!lang) {
     return null;
   }

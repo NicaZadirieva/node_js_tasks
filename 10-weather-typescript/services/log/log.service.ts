@@ -34,6 +34,10 @@ export class LoggerService implements ILoggerService {
       }°C, ${weather.weather[0].description}`
     );
   }
+
+  logForecast(forecast: Forecast) {
+    console.log(forecast);
+  }
   logError(errorMessage: string ): void {
     console.error(chalk.bgRed("ERROR") + " " + errorMessage);
   }

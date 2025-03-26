@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { getForecast } from '../../services/api';
+import { CliWeatherApiService } from '../../services/api/cli.weather.api.service';
 import { LoggerService } from '../../services/log/log.service';
 import { getLanguage, saveCity, saveLanguage, saveToken } from '../../services/storage';
 import { Argv, getArgs } from "./helpers/args";
@@ -9,7 +9,7 @@ const initCli = async () => {
   console.log("CLI started...");
   const args = getArgs(process.argv) as Argv;
   const logger = new LoggerService();
-
+  const weatherApiService = new CliWeatherApiService();
   if (args.s) {
     // Сохранить город
     await saveCity(args.s);
@@ -31,7 +31,8 @@ const initCli = async () => {
     logger.logHelp(lang);
   }
 
-  await getForecast();
+  
+  await weatherApiService.getForecast();
 };
 
 initCli();
