@@ -1,14 +1,14 @@
-import axios from "axios";
-import { printError, printWeather } from "../../log/cli/log.service.js";
+import axios, { AxiosError } from "axios";
+import { printError, printWeather } from "../../log/cli/log.service";
 import {
   getCities,
   getLanguage,
   getToken,
-} from "../../storage/storage.service.js";
-import { DEFAULT_LANGUAGE, WEATHER_URL, getIcon } from "../shared/helpers.js";
-import { HttpUtils } from "../shared/httpUtils.js";
+} from "../../storage/storage.service";
+import { DEFAULT_LANGUAGE, WEATHER_URL, getIcon } from "../shared/helpers";
+import { HttpUtils } from "../shared/httpUtils";
 
-const getWeather = async (city) => {
+const getWeather = async (city: string) => {
   const OPEN_WEATHER_MAP_API_KEY = await getToken();
   const LANGUAGE = (await getLanguage()) || DEFAULT_LANGUAGE;
   if (!OPEN_WEATHER_MAP_API_KEY) {
@@ -40,15 +40,20 @@ const getForecast = async () => {
     for (const weather of weatherData) {
       printWeather(weather, getIcon(weather.weather[0].icon));
     }
-  } catch (err) {
-    if (err?.response?.status == 404) {
-      printError("Город не найден");
-    } else if (err?.response?.status == 401) {
-      printError("Не авторизован. Установите токен с помощью -t [API_KEY]");
-    } else {
+  } catch (err: unknown) {
+    if (err instanceof AxiosError) {
+      if (err?.response?.status == 404) {
+        printError("Город не найден");
+      } else if (err?.response?.status == 401) {
+        printError("Не авторизован. Установите токен с помощью -t [API_KEY]");
+      } else {
+        printError(err.message);
+      }
+    } else if (err instanceof Error) {
       printError(err.message);
     }
   }
 };
 
 export { getForecast, getIcon, getWeather };
+
