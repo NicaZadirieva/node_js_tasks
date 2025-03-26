@@ -1,14 +1,14 @@
 import chalk from "chalk";
 import dedent from "dedent-js";
-const printError = (error) => {
+const printError = (error: string) => {
   console.error(chalk.bgRed("ERROR") + " " + error);
 };
 
-const printSuccess = (message) => {
+const printSuccess = (message: string) => {
   console.log(chalk.bgGreen("SUCCESS") + " " + message);
 };
 
-const printHelp = (lang) => {
+const printHelp = (lang: 'ru' | 'eng') => {
   switch (lang) {
     case "ru":
       printRuHelp();
@@ -44,7 +44,16 @@ const printEngHelp = () => {
   );
 };
 
-const printWeather = (weather, icon) => {
+type WeatherDescription = {
+  description: string
+}
+
+export type Weather = {
+  name: string, 
+  main: { temp: string }, 
+  weather: WeatherDescription[]
+}
+const printWeather = (weather: weather, icon: string) => {
   console.log(
     dedent`${chalk.bgMagenta("WEATHER")} ${icon}  ${weather.name}: ${
       weather.main.temp
@@ -53,3 +62,4 @@ const printWeather = (weather, icon) => {
 };
 
 export { printError, printHelp, printSuccess, printWeather };
+
