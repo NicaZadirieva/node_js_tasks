@@ -1,17 +1,13 @@
 #!/usr/bin/env node
-import { getForecast } from "../services/api";
-import { printHelp } from "../services/log";
-import {
-  getLanguage,
-  saveCity,
-  saveLanguage,
-  saveToken,
-} from "../services/storage";
-import { getArgs } from "./helpers/args.js";
+import { getForecast } from '../../services/api';
+import { printHelp } from '../../services/log';
+import { getLanguage, saveCity, saveLanguage, saveToken } from '../../services/storage';
+import { Argv, getArgs } from "./helpers/args";
+
 
 const initCli = async () => {
   console.log("CLI started...");
-  const args = getArgs(process.argv);
+  const args = getArgs(process.argv) as Argv;
 
   if (args.s) {
     // Сохранить город

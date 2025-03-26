@@ -1,6 +1,7 @@
 import express from "express";
-import { restGetForecast } from "../../services/api/index.js";
-import { saveCity, saveToken } from "../../services/storage/index.js";
+import { restGetForecast } from '../../services/api';
+import { saveCity, saveToken } from '../../services/storage';
+
 
 function main() {
   const app = express();
@@ -20,9 +21,9 @@ function main() {
   });
 
   app.get("/weather", async (req, res) => {
-    const cities = req.query.cities;
-    const token = req.query.token;
-    const lang = req.query.lang;
+    const cities = req.query.cities as string[];
+    const token = req.query.token as string;
+    const lang = req.query.lang as 'ru' | 'eng';
     const weatherInfo = await restGetForecast({
       fromQuery: {
         cities,

@@ -1,5 +1,12 @@
-const getArgs = (args) => {
-  const res = {};
+export type Argv = {
+  s?: string;
+  t?: string;
+  lang?: 'ru' | 'eng',
+  h?: boolean;
+}
+
+const getArgs = (args: NodeJS.Process["argv"]) => {
+  const res : any = {};
   const [executor, file, ...rest] = args;
 
   rest.forEach((value, index, array) => {
@@ -22,3 +29,4 @@ const getArgs = (args) => {
 };
 
 export { getArgs };
+
