@@ -1,6 +1,6 @@
 class HttpUtils {
   // Формируем строку `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${OPEN_WEATHER_MAP_API_KEY}&units=metric`;
-  static formHttpParams({ city, token, lang }) {
+  static formHttpParams({ city, token, lang }: {city: string, token: string, lang: 'ru' | 'eng'}) {
     const params = {
       q: city,
       appid: token,
@@ -13,3 +13,4 @@ class HttpUtils {
 }
 
 export { HttpUtils };
+

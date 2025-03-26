@@ -51,7 +51,7 @@ const getCities = async () => {
 };
 
 const saveKeyValue = async (key: string, value: string) => {
-  let data : {[key] : string} = {};
+  let data : any = {};
   if (await isExist(filePath)) {
     const jsonData = await promises.readFile(filePath, "utf8");
     data = JSON.parse(jsonData);

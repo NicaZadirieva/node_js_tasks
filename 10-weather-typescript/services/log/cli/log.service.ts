@@ -53,7 +53,7 @@ export type Weather = {
   main: { temp: string }, 
   weather: WeatherDescription[]
 }
-const printWeather = (weather: weather, icon: string) => {
+const printWeather = (weather: Weather, icon: string) => {
   console.log(
     dedent`${chalk.bgMagenta("WEATHER")} ${icon}  ${weather.name}: ${
       weather.main.temp
