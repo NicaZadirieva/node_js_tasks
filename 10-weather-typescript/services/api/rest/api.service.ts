@@ -1,11 +1,11 @@
 import axios, { AxiosError } from "axios";
-import { getWeatherApiInfo } from "../../log/rest/log.service";
+
 import {
   getCities,
   getLanguage,
   getToken,
 } from "../../storage/storage.service";
-import { DEFAULT_LANGUAGE, WEATHER_URL, getIcon } from "../shared/helpers";
+import { DEFAULT_LANGUAGE, WEATHER_URL, getIcon, getWeatherApiInfo } from "../shared/helpers";
 import { HttpUtils } from "../shared/httpUtils";
 
 const getWeather = async ({
