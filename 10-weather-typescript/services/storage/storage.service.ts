@@ -1,20 +1,21 @@
 import { PathLike, promises } from "fs";
 import { homedir } from "os";
 import { join } from "path";
-import { printError, printSuccess } from "../log/cli/log.service.js";
+import { LoggerService } from '../log/log.service.js';
 const filePath = join(homedir(), "weather_data.json");
 
+const logger = new LoggerService();
 const saveToken = async (token: string) => {
   if (!token.length) {
-    printError("Не передан токен");
+    logger.logError("Не передан токен");
     return;
   }
   try {
     await saveKeyValue("token", token);
-    printSuccess(`Токен сохранен в ${filePath}`);
+    logger.logSuccess(`Токен сохранен в ${filePath}`);
   } catch (error: unknown) {
     if (error instanceof Error) {
-      printError(error.message);
+      logger.logError(error.message);
     }
   }
 };
@@ -29,15 +30,15 @@ const getToken = async () => {
 
 const saveCity = async (city: string) => {
   if (!city.length) {
-    printError("Не передан город");
+    logger.logError("Не передан город");
     return;
   }
   try {
     await saveKeyValue("city", city);
-    printSuccess(`Город сохранен в ${filePath}`);
+    logger.logSuccess(`Город сохранен в ${filePath}`);
   } catch (error: unknown) {
     if (error instanceof Error) {
-      printError(error.message);
+      logger.logError(error.message);
     }
   }
 };
@@ -69,15 +70,15 @@ const getLanguage = async () => {
 
 const saveLanguage = async (value: string) => {
   if (!value.length) {
-    printError("Не передан язык");
+    logger.logError("Не передан язык");
     return;
   }
   try {
     await saveKeyValue("lang", value);
-    printSuccess(`Язык сохранен в ${filePath}`);
+    logger.logSuccess(`Язык сохранен в ${filePath}`);
   } catch (error: unknown) {
     if (error instanceof Error) {
-      printError(error.message);
+      logger.logError(error.message);
     }
   }
 };

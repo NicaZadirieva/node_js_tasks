@@ -1,5 +1,5 @@
 import axios, { AxiosError } from "axios";
-import { printError, printWeather } from "../../log/cli/log.service";
+import { LoggerService } from '../../log/log.service';
 import {
   getCities,
   getLanguage,
@@ -8,6 +8,7 @@ import {
 import { DEFAULT_LANGUAGE, WEATHER_URL, getIcon } from "../shared/helpers";
 import { HttpUtils } from "../shared/httpUtils";
 
+const logger = new LoggerService();
 const getWeather = async (city: string) => {
   const OPEN_WEATHER_MAP_API_KEY = await getToken();
   const LANGUAGE = (await getLanguage()) || DEFAULT_LANGUAGE;
@@ -38,19 +39,19 @@ const getForecast = async () => {
     }
     const weatherData = await Promise.all(weatherPromises);
     for (const weather of weatherData) {
-      printWeather(weather, getIcon(weather.weather[0].icon));
+      logger.logWeather(weather, getIcon(weather.weather[0].icon));
     }
   } catch (err: unknown) {
     if (err instanceof AxiosError) {
       if (err?.response?.status == 404) {
-        printError("Город не найден");
+        logger.logError('Город не найден');
       } else if (err?.response?.status == 401) {
-        printError("Не авторизован. Установите токен с помощью -t [API_KEY]");
+        logger.logError("Не авторизован. Установите токен с помощью -t [API_KEY]");
       } else {
-        printError(err.message);
+        logger.logError(err.message);
       }
     } else if (err instanceof Error) {
-      printError(err.message);
+      logger.logError(err.message);
     }
   }
 };
