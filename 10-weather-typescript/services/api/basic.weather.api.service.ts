@@ -1,6 +1,6 @@
 import { AxiosError } from 'axios';
+import { getIcon, getWeatherApiInfo } from '../shared/helpers';
 import { getCities } from '../storage';
-import { getIcon, getWeatherApiInfo } from './shared/helpers';
 import { IWeatherApiService } from './weather.api.service.interface';
 
 export abstract class BasicWeatherApiService implements IWeatherApiService {

@@ -1,9 +1,9 @@
 import axios from "axios";
 import { LoggerService } from '../log/log.service';
+import { DEFAULT_LANGUAGE, WEATHER_URL } from "../shared/helpers";
+import { HttpUtils } from "../shared/httpUtils";
 import { getLanguage, getToken } from "../storage";
 import { BasicWeatherApiService } from './basic.weather.api.service';
-import { DEFAULT_LANGUAGE, WEATHER_URL } from "./shared/helpers";
-import { HttpUtils } from "./shared/httpUtils";
 import { IWeatherApiService } from "./weather.api.service.interface";
 
 const logger = new LoggerService();
