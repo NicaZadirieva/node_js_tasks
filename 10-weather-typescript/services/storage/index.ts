@@ -5,5 +5,6 @@ export {
   saveCity,
   saveKeyValue,
   saveLanguage,
-  saveToken,
-} from "./storage.service.js";
+  saveToken
+} from "./storage.service";
+

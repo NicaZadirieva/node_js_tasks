@@ -1,10 +1,10 @@
-import { promises } from "fs";
+import { PathLike, promises } from "fs";
 import { homedir } from "os";
 import { join } from "path";
 import { printError, printSuccess } from "../log/cli/log.service.js";
 const filePath = join(homedir(), "weather_data.json");
 
-const saveToken = async (token) => {
+const saveToken = async (token: string) => {
   if (!token.length) {
     printError("Не передан токен");
     return;
@@ -12,8 +12,10 @@ const saveToken = async (token) => {
   try {
     await saveKeyValue("token", token);
     printSuccess(`Токен сохранен в ${filePath}`);
-  } catch (e) {
-    printError(error.message);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      printError(error.message);
+    }
   }
 };
 
@@ -25,7 +27,7 @@ const getToken = async () => {
   return token;
 };
 
-const saveCity = async (city) => {
+const saveCity = async (city: string) => {
   if (!city.length) {
     printError("Не передан город");
     return;
@@ -33,8 +35,10 @@ const saveCity = async (city) => {
   try {
     await saveKeyValue("city", city);
     printSuccess(`Город сохранен в ${filePath}`);
-  } catch (e) {
-    printError(error.message);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      printError(error.message);
+    }
   }
 };
 
@@ -43,11 +47,11 @@ const getCities = async () => {
   if (!cities) {
     return null;
   }
-  return cities.split(",").map((city) => city.trim());
+  return cities.split(",").map((city: string) => city.trim());
 };
 
-const saveKeyValue = async (key, value) => {
-  let data = {};
+const saveKeyValue = async (key: string, value: string) => {
+  let data : {[key] : string} = {};
   if (await isExist(filePath)) {
     const jsonData = await promises.readFile(filePath, "utf8");
     data = JSON.parse(jsonData);
@@ -63,7 +67,7 @@ const getLanguage = async () => {
   return lang;
 };
 
-const saveLanguage = async (value) => {
+const saveLanguage = async (value: string) => {
   if (!value.length) {
     printError("Не передан язык");
     return;
@@ -71,12 +75,14 @@ const saveLanguage = async (value) => {
   try {
     await saveKeyValue("lang", value);
     printSuccess(`Язык сохранен в ${filePath}`);
-  } catch (e) {
-    printError(error.message);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      printError(error.message);
+    }
   }
 };
 
-const getKeyValue = async (key) => {
+const getKeyValue = async (key: string) => {
   if (!(await isExist(filePath))) {
     // если файла нет, null
     return null;
@@ -87,7 +93,7 @@ const getKeyValue = async (key) => {
   const data = JSON.parse(jsonData);
   return data[key];
 };
-const isExist = async (path) => {
+const isExist = async (path: PathLike) => {
   try {
     await promises.stat(path);
     return true;
@@ -103,5 +109,6 @@ export {
   saveCity,
   saveKeyValue,
   saveLanguage,
-  saveToken,
+  saveToken
 };
+
