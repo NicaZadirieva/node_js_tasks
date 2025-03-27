@@ -44,7 +44,7 @@ export class LoggerService implements ILoggerService {
   logSuccess(message: string): void {
     console.log(chalk.bgGreen("SUCCESS") + " " + message);
   }
-  logHelp(lang: "ru" | "eng"): void {
+  logHelp(lang: Lang | null): void {
     switch (lang) {
       case "ru":
         this.printRuHelp();

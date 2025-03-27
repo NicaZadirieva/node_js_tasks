@@ -1,7 +1,7 @@
 type Argv = {
   s?: string;
   t?: string;
-  lang?: 'ru' | 'eng',
+  lang?: Lang,
   h?: boolean;
 }
 
