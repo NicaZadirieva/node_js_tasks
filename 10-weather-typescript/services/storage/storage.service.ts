@@ -1,71 +1,86 @@
 import { PathLike, promises } from "fs";
 import { homedir } from "os";
 import { join } from "path";
-import { LoggerService } from '../log/log.service.js';
+import { LoggerService } from "../log/log.service.js";
+import { IStorageService } from "./storage.service.interface.js";
 const filePath = join(homedir(), "weather_data.json");
 
 const logger = new LoggerService();
-const saveToken = async (token: string) => {
-  if (!token.length) {
-    logger.logError("Не передан токен");
-    return;
-  }
-  try {
-    await saveKeyValue("token", token);
-    logger.logSuccess(`Токен сохранен в ${filePath}`);
-  } catch (error: unknown) {
-    if (error instanceof Error) {
-      logger.logError(error.message);
+
+export default class StorageService implements IStorageService {
+  async saveToken(token: string) {
+    if (!token.length) {
+      logger.logError("Не передан токен");
+      return;
+    }
+    try {
+      await saveKeyValue("token", token);
+      logger.logSuccess(`Токен сохранен в ${filePath}`);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        logger.logError(error.message);
+      }
     }
   }
-};
-
-const getToken = async () => {
-  const token = process.env.TOKEN ?? (await getKeyValue("token"));
-  if (!token) {
-    return null;
+  async getToken() {
+    const token = process.env.TOKEN ?? (await getKeyValue("token"));
+    if (!token) {
+      return null;
+    }
+    return token;
   }
-  return token;
-};
-
-const saveCity = async (city: string) => {
-  if (!city.length) {
-    logger.logError("Не передан город");
-    return;
-  }
-  try {
-    await saveKeyValue("city", city);
-    logger.logSuccess(`Город сохранен в ${filePath}`);
-  } catch (error: unknown) {
-    if (error instanceof Error) {
-      logger.logError(error.message);
+  async saveCity(city: string) {
+    if (!city.length) {
+      logger.logError("Не передан город");
+      return;
+    }
+    try {
+      await saveKeyValue("city", city);
+      logger.logSuccess(`Город сохранен в ${filePath}`);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        logger.logError(error.message);
+      }
     }
   }
-};
-
-const getCities = async () => {
-  const cities = process.env.CITY ?? (await getKeyValue("city"));
-  if (!cities) {
-    return null;
+  async getCities() {
+    const cities = process.env.CITY ?? (await getKeyValue("city"));
+    if (!cities) {
+      return null;
+    }
+    return cities.split(",").map((city: string) => city.trim());
   }
-  return cities.split(",").map((city: string) => city.trim());
-};
+  async getLanguage() {
+    const lang = await getKeyValue("lang");
+    if (!lang) {
+      return null;
+    }
+    return lang;
+  }
+  async saveLanguage(language: string) {
+    if (!language.length) {
+      logger.logError("Не передан язык");
+      return;
+    }
+    try {
+      await saveKeyValue("lang", language);
+      logger.logSuccess(`Язык сохранен в ${filePath}`);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        logger.logError(error.message);
+      }
+    }
+  }
+}
 
 const saveKeyValue = async (key: string, value: string) => {
-  let data : any = {};
+  let data: any = {};
   if (await isExist(filePath)) {
     const jsonData = await promises.readFile(filePath, "utf8");
     data = JSON.parse(jsonData);
   }
   data[key] = value;
   await promises.writeFile(filePath, JSON.stringify(data));
-};
-const getLanguage = async () => {
-  const lang = await getKeyValue("lang");
-  if (!lang) {
-    return null;
-  }
-  return lang;
 };
 
 const saveLanguage = async (value: string) => {
@@ -101,15 +116,5 @@ const isExist = async (path: PathLike) => {
   } catch (error) {
     return false;
   }
-};
-
-export {
-  getCities,
-  getLanguage,
-  getToken,
-  saveCity,
-  saveKeyValue,
-  saveLanguage,
-  saveToken
 };
 

@@ -2,11 +2,13 @@ import axios from "axios";
 import { LoggerService } from "../log/log.service";
 import { WEATHER_URL } from "../shared/helpers";
 import { HttpUtils } from "../shared/httpUtils";
-import { getLanguage, getToken } from "../storage";
+
+import StorageService from '../storage/storage.service';
 import { BasicWeatherApiService } from "./basic.weather.api.service";
 import { IWeatherApiService } from "./weather.api.service.interface";
 
 const logger = new LoggerService();
+const storageService = new StorageService();
 export class RestWeatherApiService
   extends BasicWeatherApiService
   implements IWeatherApiService
@@ -19,8 +21,8 @@ export class RestWeatherApiService
     super();
   }
   async getWeather(city: string) {
-    const OPEN_WEATHER_MAP_API_KEY = this.token || (await getToken());
-    const LANGUAGE = this.lang || (await getLanguage());
+    const OPEN_WEATHER_MAP_API_KEY = this.token || (await storageService.getToken());
+    const LANGUAGE = this.lang || (await storageService.getLanguage());
     if (!OPEN_WEATHER_MAP_API_KEY) {
       throw new Error(
         "Token not available. Set it with command : -t [API_KEY]"

@@ -1,13 +1,15 @@
 import { AxiosError } from 'axios';
 import { getIcon, getWeatherApiInfo } from '../shared/helpers';
-import { getCities } from '../storage';
+
+import StorageService from '../storage/storage.service';
 import { IWeatherApiService } from './weather.api.service.interface';
 
+const storageService = new StorageService();
 export abstract class BasicWeatherApiService implements IWeatherApiService {
    abstract getWeather(city: string): Promise<Weather>;
    async getForecast(paramCities?: string[]) {
     try {
-      const cities = paramCities || (await getCities());
+      const cities = paramCities || (await storageService.getCities());
       if (!cities) {
         throw new Error("City not available. Set it");
       }
