@@ -16,6 +16,10 @@ import { IUserController } from './users/users.controller.interface';
 //     new UserController(logger),
 //     new ExceptionFilter(logger)
 // );
+export interface IBootstrapReturn {
+	container: Container;
+	app: App;
+}
 
 const appModule: ContainerModule = new ContainerModule(
 	(appContainer: ContainerModuleLoadOptions) => {
@@ -26,7 +30,7 @@ const appModule: ContainerModule = new ContainerModule(
 	},
 );
 
-function bootstrap() {
+function bootstrap(): IBootstrapReturn {
 	const container = new Container();
 	container.load(appModule);
 	const app = container.get<App>(TYPES.Application);
