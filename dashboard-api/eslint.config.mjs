@@ -1,0 +1,53 @@
+import pluginJs from "@eslint/js";
+import eslintConfigPrettier from "eslint-config-prettier";
+import prettierPlugin from "eslint-plugin-prettier";
+import globals from "globals";
+import tseslint from "typescript-eslint";
+
+/** @type {import('eslint').Linter.Config[]} */
+export default tseslint.config(
+  {
+    plugins: {
+      "@typescript-eslint": tseslint.plugin,
+      prettier: prettierPlugin,
+    },
+  },
+  {
+    ignores: ["dist", "node_modules"],
+  },
+  pluginJs.configs.recommended,
+  ...tseslint.configs.recommended,
+  {
+    languageOptions: {
+      globals: {
+        ...globals.node,
+      },
+      parserOptions: {
+        project: ["tsconfig.json"],
+      },
+    },
+  },
+  {
+    files: ["**/*.{ts,tsx}"],
+    rules: {
+      ...prettierPlugin.configs.recommended.rules,
+      ...eslintConfigPrettier.rules,
+      "@typescript-eslint/ban-types": "off",
+      "@typescript-eslint/no-unused-vars": ["off"],
+      "@typescript-eslint/no-explicit-any": "off",
+      "@typescript-eslint/explicit-function-return-type": ["off"],
+      "prettier/prettier": [
+        "error",
+        {
+          singleQuote: true,
+          useTabs: true,
+          semi: true,
+          trailingComma: "all",
+          bracketSpacing: true,
+          printWidth: 100,
+          endOfLine: "auto",
+        },
+      ],
+    },
+  }
+);

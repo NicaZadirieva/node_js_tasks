@@ -1,12 +1,12 @@
-import { Container, ContainerModule, ContainerModuleLoadOptions } from "inversify";
-import { App } from "./app";
+import { Container, ContainerModule, ContainerModuleLoadOptions } from 'inversify';
+import { App } from './app';
 import { BaseController } from './common/base.controller';
-import { IExceptionFilter } from "./errors/exception.filter.interface";
-import { ExceptionFilter } from "./errors/exeption.filter";
-import { ILogger } from "./logger/logger.interface";
-import { LoggerService } from "./logger/logger.service";
-import { TYPES } from "./types";
-import { UserController } from "./users/users.controller";
+import { ExceptionFilter } from './errors/exception.filter';
+import { IExceptionFilter } from './errors/exception.filter.interface';
+import { ILogger } from './logger/logger.interface';
+import { LoggerService } from './logger/logger.service';
+import { TYPES } from './types';
+import { UserController } from './users/users.controller';
 import { IUserController } from './users/users.controller.interface';
 
 //async function bootstrap() {
@@ -18,20 +18,20 @@ import { IUserController } from './users/users.controller.interface';
 // );
 
 const appModule: ContainerModule = new ContainerModule(
-  (appContainer: ContainerModuleLoadOptions) => {
-    appContainer.bind<ILogger>(TYPES.ILogger).to(LoggerService);
-    appContainer.bind<IExceptionFilter>(TYPES.ExceptionFilter).to(ExceptionFilter);
-    appContainer.bind<IUserController & BaseController>(TYPES.UserController).to(UserController);
-    appContainer.bind<App>(TYPES.Application).to(App);
-  },
+	(appContainer: ContainerModuleLoadOptions) => {
+		appContainer.bind<ILogger>(TYPES.ILogger).to(LoggerService);
+		appContainer.bind<IExceptionFilter>(TYPES.ExceptionFilter).to(ExceptionFilter);
+		appContainer.bind<IUserController & BaseController>(TYPES.UserController).to(UserController);
+		appContainer.bind<App>(TYPES.Application).to(App);
+	},
 );
 
 function bootstrap() {
-    const container = new Container();
-    container.load(appModule);
-    const app = container.get<App>(TYPES.Application);
-    app.init();
-    return { container, app };
+	const container = new Container();
+	container.load(appModule);
+	const app = container.get<App>(TYPES.Application);
+	app.init();
+	return { container, app };
 }
 
 export const { container, app } = bootstrap();
