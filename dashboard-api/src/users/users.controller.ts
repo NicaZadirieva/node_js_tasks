@@ -1,5 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
+import fs from 'fs';
 import { inject, injectable } from 'inversify';
+import { resolve } from 'path';
 import 'reflect-metadata';
 import { BaseController } from '../common/base.controller';
 import { HTTPError } from '../errors/http-error.class';
@@ -22,6 +24,7 @@ export class UserController extends BaseController implements IUserController {
 	}
 
 	register(req: Request, res: Response, next: NextFunction): void {
+		fs.readFileSync(resolve(__dirname, '../../Урок_1 [ 01.02.2025 ].mp4'));
 		next(new HTTPError(401, 'Ошибка авторизации'));
 	}
 }
