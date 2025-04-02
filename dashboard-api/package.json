@@ -16,7 +16,8 @@
     "start": "node ./dist/main.js",
     "lint": "eslint ./src/**",
     "lint:fix": "eslint ./src/** --fix",
-    "dev": "nodemon"
+    "dev": "nodemon",
+    "dev:inspect": "nodemon -e ts,json --exec node --inspect=localhost -r ts-node/register src/main.ts"
   },
   "author": "",
   "license": "ISC",
