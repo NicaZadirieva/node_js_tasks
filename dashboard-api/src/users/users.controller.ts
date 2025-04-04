@@ -18,7 +18,7 @@ export class UserController extends BaseController implements IUserController {
 	) {
 		super(logger);
 		this.bindRoutes([
-			{ path: '/register', method: 'post', func: this.register },
+			{ path: '/register', method: 'post', func: this.register, middlewares: [] },
 			{ path: '/login', method: 'post', func: this.login },
 		]);
 	}
