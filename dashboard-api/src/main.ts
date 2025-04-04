@@ -6,6 +6,8 @@ import { IExceptionFilter } from './errors/exception.filter.interface';
 import { ILogger } from './logger/logger.interface';
 import { LoggerService } from './logger/logger.service';
 import { TYPES } from './types';
+import { UserService } from './users/user.service';
+import { IUserService } from './users/user.service.interface';
 import { UserController } from './users/users.controller';
 import { IUserController } from './users/users.controller.interface';
 
@@ -26,6 +28,7 @@ const appModule: ContainerModule = new ContainerModule(
 		appContainer.bind<ILogger>(TYPES.ILogger).to(LoggerService);
 		appContainer.bind<IExceptionFilter>(TYPES.ExceptionFilter).to(ExceptionFilter);
 		appContainer.bind<IUserController & BaseController>(TYPES.UserController).to(UserController);
+		appContainer.bind<IUserService>(TYPES.UserService).to(UserService);
 		appContainer.bind<App>(TYPES.Application).to(App);
 	},
 );
