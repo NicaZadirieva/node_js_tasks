@@ -5,6 +5,7 @@ import { inject, injectable } from 'inversify';
 import 'reflect-metadata';
 import { BaseController } from './common/base.controller';
 import { IConfigService } from './config/config.service.interface';
+import { PrismaService } from './database/prisma.service';
 import { ExceptionFilter } from './errors/exception.filter';
 import { ILogger } from './logger/logger.interface';
 import { TYPES } from './types';
@@ -21,6 +22,7 @@ export class App {
 		@inject(TYPES.UserController) private userController: IUserController & BaseController,
 		@inject(TYPES.ExceptionFilter) private exceptionFilter: ExceptionFilter,
 		@inject(TYPES.IConfigService) private configService: IConfigService,
+		@inject(TYPES.PrismaService) private prismaService: PrismaService,
 	) {
 		this.app = express();
 		this.port = 8000;
@@ -43,6 +45,7 @@ export class App {
 		this.useRoutes();
 
 		this.useExceptionFilters();
+		await this.prismaService.connect();
 		this.server = await this.app.listen(this.port);
 		this.logger?.log(`Server is running on port ${this.port}`);
 	}

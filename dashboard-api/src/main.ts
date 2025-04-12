@@ -3,6 +3,7 @@ import { App } from './app';
 import { BaseController } from './common/base.controller';
 import { ConfigService } from './config/config.service';
 import { IConfigService } from './config/config.service.interface';
+import { PrismaService } from './database/prisma.service';
 import { ExceptionFilter } from './errors/exception.filter';
 import { IExceptionFilter } from './errors/exception.filter.interface';
 import { ILogger } from './logger/logger.interface';
@@ -36,6 +37,7 @@ const appModule: ContainerModule = new ContainerModule(
 			.bind<IUserController & BaseController>(TYPES.UserController)
 			.to(UserController)
 			.inSingletonScope();
+		appContainer.bind<PrismaService>(TYPES.PrismaService).to(PrismaService).inSingletonScope();
 		appContainer.bind<IUserService>(TYPES.UserService).to(UserService).inSingletonScope();
 		appContainer.bind<IConfigService>(TYPES.IConfigService).to(ConfigService).inSingletonScope();
 		appContainer.bind<App>(TYPES.Application).to(App).inSingletonScope();
