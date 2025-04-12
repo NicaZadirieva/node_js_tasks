@@ -1,4 +1,5 @@
 import { UserModel } from '@prisma/client';
+import { compare } from 'bcryptjs';
 import { inject, injectable } from 'inversify';
 import 'reflect-metadata';
 import { IConfigService } from '../config/config.service.interface';
@@ -27,6 +28,10 @@ export class UserService implements IUserService {
 		return null;
 	}
 	async validateUser(dto: UserLoginDto): Promise<boolean> {
-		return true;
+		const user = await this.usersRepository.find(dto.email);
+		if (user) {
+			return await compare(dto.password, user.password);
+		}
+		return false;
 	}
 }

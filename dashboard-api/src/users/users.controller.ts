@@ -27,12 +27,26 @@ export class UserController extends BaseController implements IUserController {
 				func: this.register,
 				middlewares: [new ValidateMiddleware(UserRegisterDto)],
 			},
-			{ path: '/login', method: 'post', func: this.login },
+			{
+				path: '/login',
+				method: 'post',
+				func: this.login,
+				middlewares: [new ValidateMiddleware(UserLoginDto)],
+			},
 		]);
 	}
 
-	login({ body }: Request<object, object, UserLoginDto>, res: Response, next: NextFunction): void {
-		this.ok(res, 'login');
+	async login(
+		{ body }: Request<object, object, UserLoginDto>,
+		res: Response,
+		next: NextFunction,
+	): Promise<void> {
+		const isExist = await this.userService.validateUser(body);
+		if (isExist) {
+			this.ok(res, body.email);
+		} else {
+			return next(new HTTPError(401, 'Ошибка авторизации'));
+		}
 	}
 
 	async register(
