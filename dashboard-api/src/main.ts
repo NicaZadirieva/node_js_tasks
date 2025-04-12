@@ -13,6 +13,8 @@ import { UserService } from './users/user.service';
 import { IUserService } from './users/user.service.interface';
 import { UserController } from './users/users.controller';
 import { IUserController } from './users/users.controller.interface';
+import { UsersRepository } from './users/users.repository';
+import { IUsersRepository } from './users/users.repository.interface';
 
 //async function bootstrap() {
 // const logger: ILogger = new LoggerService();
@@ -40,6 +42,10 @@ const appModule: ContainerModule = new ContainerModule(
 		appContainer.bind<PrismaService>(TYPES.PrismaService).to(PrismaService).inSingletonScope();
 		appContainer.bind<IUserService>(TYPES.UserService).to(UserService).inSingletonScope();
 		appContainer.bind<IConfigService>(TYPES.IConfigService).to(ConfigService).inSingletonScope();
+		appContainer
+			.bind<IUsersRepository>(TYPES.IUsersRepository)
+			.to(UsersRepository)
+			.inSingletonScope();
 		appContainer.bind<App>(TYPES.Application).to(App).inSingletonScope();
 	},
 );
