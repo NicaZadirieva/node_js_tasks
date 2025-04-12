@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { inject, injectable } from 'inversify';
+import { sign } from 'jsonwebtoken';
 import 'reflect-metadata';
 import { BaseController } from '../common/base.controller';
 import { ValidateMiddleware } from '../common/validate.middleware';
@@ -43,7 +44,8 @@ export class UserController extends BaseController implements IUserController {
 	): Promise<void> {
 		const isExist = await this.userService.validateUser(body);
 		if (isExist) {
-			this.ok(res, body.email);
+			const jwt = await this.signJWT(body.email, this.configService.get('SECRET'));
+			this.ok(res, { jwt });
 		} else {
 			return next(new HTTPError(401, 'Ошибка авторизации'));
 		}
@@ -59,5 +61,27 @@ export class UserController extends BaseController implements IUserController {
 			return next(new HTTPError(422, 'Такой пользователь уже существует'));
 		}
 		this.ok(res, { email: newUser.email, id: newUser.id });
+	}
+
+	private signJWT(email: string, secret: string): Promise<string> {
+		return new Promise((resolve, reject) => {
+			sign(
+				{
+					email,
+					iat: Math.floor(Date.now() / 1000),
+				},
+				secret,
+				{
+					algorithm: 'HS256',
+				},
+				(err, token) => {
+					if (err) {
+						reject(err);
+					} else {
+						resolve(token as string);
+					}
+				},
+			);
+		});
 	}
 }
