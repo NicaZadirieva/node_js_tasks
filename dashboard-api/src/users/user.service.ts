@@ -20,7 +20,7 @@ export class UserService implements IUserService {
 		const newUser = new User(email, name);
 		const salt = this.configService.get('SALT');
 		await newUser.setPassword(password, Number(salt));
-		const existedUser = this.usersRepository.find(email);
+		const existedUser = await this.usersRepository.find(email);
 		if (!existedUser) {
 			// еще нет такого юзера
 			return await this.usersRepository.create(newUser);

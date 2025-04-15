@@ -17,6 +17,7 @@ export class AuthMiddleware implements IMiddleware {
 	async execute(req: Request, res: Response, next: NextFunction): Promise<void> {
 		if (req.headers.authorization) {
 			try {
+				// hint: упрощение записи
 				const [, jwt] = req.headers.authorization.split(' ');
 				const payload = await this.verifyJWT(jwt, this.secret);
 				req.user = payload.email;
