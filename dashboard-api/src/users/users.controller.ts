@@ -70,8 +70,13 @@ export class UserController extends BaseController implements IUserController {
 		this.ok(res, { email: newUser.email, id: newUser.id });
 	}
 
-	async info({ user }: Request, res: Response, next: NextFunction): Promise<void> {
-		this.ok(res, { email: user });
+	async info({ body }: Request, res: Response, next: NextFunction): Promise<void> {
+		const checkUser = await this.userService.getInfo({ email: body.email });
+		if (checkUser) {
+			this.ok(res, { email: checkUser.email });
+		} else {
+			return next(new HTTPError(404, 'Not found'));
+		}
 	}
 
 	private signJWT(email: string, secret: string): Promise<string> {

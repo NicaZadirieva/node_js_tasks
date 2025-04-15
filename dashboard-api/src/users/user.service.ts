@@ -4,6 +4,7 @@ import { inject, injectable } from 'inversify';
 import 'reflect-metadata';
 import { IConfigService } from '../config/config.service.interface';
 import { TYPES } from '../types';
+import { UserGetInfoDto } from './dto/user.getInfo.dto';
 import { UserLoginDto } from './dto/user.login.dto';
 import { UserRegisterDto } from './dto/user.register.dto';
 import { User } from './user.entity';
@@ -16,6 +17,11 @@ export class UserService implements IUserService {
 		@inject(TYPES.IConfigService) private configService: IConfigService,
 		@inject(TYPES.IUsersRepository) private usersRepository: IUsersRepository,
 	) {}
+
+	async getInfo({ email }: UserGetInfoDto): Promise<UserModel | null> {
+		const user = await this.usersRepository.find(email);
+		return user;
+	}
 	async createUser({ email, name, password }: UserRegisterDto): Promise<UserModel | null> {
 		const newUser = new User(email, name);
 		const salt = this.configService.get('SALT');
