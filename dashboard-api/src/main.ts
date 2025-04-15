@@ -50,7 +50,7 @@ const appModule: ContainerModule = new ContainerModule(
 	},
 );
 
-function bootstrap(): IBootstrapReturn {
+async function bootstrap(): Promise<IBootstrapReturn> {
 	const container = new Container();
 	container.load(appModule);
 	const app = container.get<App>(TYPES.Application);
@@ -58,4 +58,4 @@ function bootstrap(): IBootstrapReturn {
 	return { container, app };
 }
 
-export const { container, app } = bootstrap();
+export const boot = bootstrap();

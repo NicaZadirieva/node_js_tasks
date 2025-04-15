@@ -52,4 +52,8 @@ export class App {
 		this.server = await this.app.listen(this.port);
 		this.logger?.log(`Server is running on port ${this.port}`);
 	}
+	
+	public close(): void {
+		this.server?.close();
+	}
 }
