@@ -5,7 +5,7 @@ const config: Config.InitialOptions = {
     verbose: true, // чтобы был детальный output
     preset: 'ts-jest',
     rootDir: './tests',
-    testRegex: '.e2e-spec.ts$'
+    testRegex: '.e2e.spec.ts$'
 }
 
 export default config;
