@@ -20,6 +20,7 @@ const container = new Container();
 let configService: IConfigService;
 let usersRepository: IUsersRepository;
 let userService: IUserService;
+let createdUser: UserModel | null;
 
 beforeAll(() => {
 	container.bind<IUserService>(TYPES.UserService).to(UserService);
@@ -42,7 +43,7 @@ describe('User Service', () => {
 				id: 1,
 			};
 		});
-		const createdUser = await userService.createUser({
+		createdUser = await userService.createUser({
 			email: 'a@gmail.ru',
 			name: 'Nica',
 			password: '1',
@@ -51,4 +52,22 @@ describe('User Service', () => {
 		expect(createdUser?.id).toEqual(1);
 		expect(createdUser?.password).not.toEqual('1');
 	});
+
+    it('Success Validate User', async () => {
+        usersRepository.find = jest.fn().mockReturnValueOnce(createdUser);
+        const isValid = await userService.validateUser({ email: 'a@gmail.ru' , password: '1', name: 'Nica'});
+        expect(isValid).toBeTruthy();
+    });
+
+    it('No Valid User Password', async () => {
+        usersRepository.find = jest.fn().mockReturnValueOnce(createdUser);
+        const isValid = await userService.validateUser({ email: 'a@gmail.ru' , password: '12323', name: 'Nica'});
+        expect(isValid).toBeFalsy();
+    })
+
+    it('No Valid User: not exist', async () => {
+        usersRepository.find = jest.fn().mockReturnValueOnce(null);
+        const isValid = await userService.validateUser({ email: 'a@gmail.ru' , password: '12323', name: 'Nica'});
+        expect(isValid).toBeFalsy();
+    })
 });
